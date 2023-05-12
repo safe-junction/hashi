@@ -38,11 +38,16 @@ const chainIds = {
 function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
   let jsonRpcUrl: string
   switch (chain) {
+    case "gnosis":
+      jsonRpcUrl = "https://rpc.gnosischain.com"
+      break
     case "avalanche":
       jsonRpcUrl = "https://api.avax.network/ext/bc/C/rpc"
       break
     case "bsc":
       jsonRpcUrl = "https://bsc-dataseed1.binance.org"
+    case "polygon-mainnet":
+      jsonRpcUrl = "https://polygon-rpc.com/ "
       break
     default:
       jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + infuraApiKey

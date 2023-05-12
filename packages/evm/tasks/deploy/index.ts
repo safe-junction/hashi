@@ -1,6 +1,7 @@
 import { Contract } from "ethers"
 import { HardhatRuntimeEnvironment } from "hardhat/types"
 
+import "./dummy"
 import "./hashi"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
