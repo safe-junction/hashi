@@ -1,5 +1,6 @@
 import "@nomicfoundation/hardhat-toolbox"
 import { config as dotenvConfig } from "dotenv"
+import "hardhat-change-network"
 import type { HardhatUserConfig } from "hardhat/config"
 import type { NetworkUserConfig } from "hardhat/types"
 import { resolve } from "path"
@@ -26,6 +27,7 @@ const chainIds = {
   avalanche: 43114,
   bsc: 56,
   gnosis: 100,
+  chiado: 10200,
   goerli: 5,
   hardhat: 31337,
   mainnet: 1,
@@ -48,6 +50,12 @@ function getChainConfig(chain: keyof typeof chainIds): NetworkUserConfig {
       jsonRpcUrl = "https://bsc-dataseed1.binance.org"
     case "polygon-mainnet":
       jsonRpcUrl = "https://polygon-rpc.com/ "
+      break
+    case "gnosis":
+      jsonRpcUrl = "https://rpc.gnosis.gateway.fm"
+      break
+    case "chiado":
+      jsonRpcUrl = "https://rpc.chiadochain.net/"
       break
     default:
       jsonRpcUrl = "https://" + chain + ".infura.io/v3/" + infuraApiKey
@@ -88,14 +96,21 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       accounts: {
-        mnemonic,
+        accountsBalance: "1000000000000000000000",
       },
+      // Used for testing axiom
+      // forking: {
+      //   url: getChainConfig("mainnet").url,
+      //   // block number of attestation block
+      //   blockNumber: 10000000,
+      // },
       chainId: chainIds.hardhat,
     },
     arbitrum: getChainConfig("arbitrum-mainnet"),
     avalanche: getChainConfig("avalanche"),
     bsc: getChainConfig("bsc"),
     gnosis: getChainConfig("gnosis"),
+    chiado: getChainConfig("chiado"),
     mainnet: getChainConfig("mainnet"),
     optimism: getChainConfig("optimism-mainnet"),
     "polygon-mainnet": getChainConfig("polygon-mainnet"),
@@ -108,6 +123,7 @@ const config: HardhatUserConfig = {
     cache: "./cache",
     sources: "./contracts",
     tests: "./test",
+    // tests: "./test_axiom",
   },
   solidity: {
     version: "0.8.17",
