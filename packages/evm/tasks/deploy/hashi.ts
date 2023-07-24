@@ -69,34 +69,6 @@ task("deploy:GiriGiriBashi")
     if (taskArguments.verify) await verify(hre, giriGiriBashi, constructorArguments)
   })
 
-task("deploy:Yaho")
-  .addFlag("verify", "whether to verify the contract on Etherscan")
-  .setAction(async function (taskArguments: TaskArguments, hre) {
-    console.log("Deploying Yaho...")
-    const signers: SignerWithAddress[] = await hre.ethers.getSigners()
-    const yahoFactory: Yaho__factory = <Yaho__factory>await hre.ethers.getContractFactory("Yaho")
-    const yaho: Yaho = <Yaho>await yahoFactory.connect(signers[0]).deploy()
-    await yaho.deployed()
-    console.log("Yaho deployed to:", yaho.address)
-    if (taskArguments.verify) await verify(hre, yaho)
-  })
-
-task("deploy:Yaru")
-  .addParam("hashi", "address of the hashi contract")
-  .addParam("yaho", "address of the yaho contract")
-  .addParam("chainId", "chain id")
-  .addFlag("verify", "whether to verify the contract on Etherscan")
-  .setAction(async function (taskArguments: TaskArguments, hre) {
-    console.log("Deploying Yaru...")
-    const signers: SignerWithAddress[] = await hre.ethers.getSigners()
-    const yaruFactory: Yary__factory = <Yary__factory>await hre.ethers.getContractFactory("Yaru")
-    const constructorArguments = [taskArguments.hashi, taskArguments.yaho, taskArguments.chainId] as const
-    const yaru: Yaru = <Yaru>await yaruFactory.connect(signers[0]).deploy(...constructorArguments)
-    await yaru.deployed()
-    console.log("Yaru deployed to:", yaru.address)
-    if (taskArguments.verify) await verify(hre, yaru, constructorArguments)
-  })
-
 task("deploy:HeaderStorage")
   .addFlag("verify", "whether to verify the contract on Etherscan")
   .setAction(async function (taskArguments: TaskArguments, hre) {
